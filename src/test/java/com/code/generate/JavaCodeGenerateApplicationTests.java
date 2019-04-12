@@ -1,4 +1,4 @@
-package com.code.generate.javacodegenerate;
+package com.code.generate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
