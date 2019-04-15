@@ -63,7 +63,8 @@ public class DbUtils {
         try {
             if (con == null) {
                 Class.forName(database.getDriver());
-                String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabaseName();
+                String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabaseName()+"?seUnicode=true&amp;characterEncoding=utf-8";
+                System.out.println("url:"+url);
                 Properties info = new Properties();
                 info.put("user", database.getUsername());
                 info.put("password", database.getPassword());
