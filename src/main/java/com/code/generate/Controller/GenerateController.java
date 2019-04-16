@@ -52,6 +52,7 @@ public class GenerateController {
         database.setDatabaseName("mlf");
         database.setDriver("com.mysql.jdbc.Driver");
         database.setPort("3306");
+        database.setPassword("333");
         database.setUsername("root");
         List<Table> tableNameList = DbUtils.getTableNameList(database);
         return tableNameList;
