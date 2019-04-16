@@ -16,15 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/generate")
-@Api(tags="模板生成")
+@Api(tags = "模板生成")
 public class GenerateController {
 
     @Autowired
     private GenerateService generateService;
 
-
     /**
-     *
      * @param driver
      * @param ip
      * @param port
@@ -38,22 +36,26 @@ public class GenerateController {
     @PostMapping("/getTableList")
     @ResponseBody
     public List<Table> getTableList(@ApiParam("驱动名称") @RequestParam(value = "driver") String driver,
-                                    @ApiParam("端口ip")@RequestParam(value = "ip") String ip,
-                                    @ApiParam("端口号")@RequestParam(value = "port") String port,
+                                    @ApiParam("端口ip") @RequestParam(value = "ip") String ip,
+                                    @ApiParam("端口号") @RequestParam(value = "port") String port,
                                     @ApiParam("用户名") @RequestParam(value = "username") String username,
                                     @ApiParam("密码") @RequestParam(value = "password") String password,
-                                    @ApiParam("数据名称")@RequestParam(value = "databaseName") String databaseName) throws Exception {
+                                    @ApiParam("数据名称") @RequestParam(value = "databaseName") String databaseName) throws Exception {
+//        Database database = new Database();
+//        database.setDatabaseName(databaseName);
+//        database.setIp(ip);
+//        database.setDriver(driver);
+//        database.setPort(port);
+//        database.setPassword(password);
+//        database.setUsername(username);
         Database database = new Database();
-        database.setDatabaseName(databaseName);
-        database.setIp(ip);
-        database.setDriver(driver);
-        database.setPort(port);
-        database.setPassword(password);
-        database.setUsername(username);
+        database.setDatabaseName("mlf");
+        database.setDriver("com.mysql.jdbc.Driver");
+        database.setPort("3306");
+        database.setUsername("root");
         List<Table> tableNameList = DbUtils.getTableNameList(database);
         return tableNameList;
     }
-
 
     /**
      * 根据表名生成模板
@@ -64,16 +66,14 @@ public class GenerateController {
     @ApiOperation(value = "根据表名生成模板", notes = "根据表名生成模板")
     @PostMapping("/generateTemplate")
     @ResponseBody
-    public String generateTemplate( @ApiParam("数据名称")String tableName) {
+    public String generateTemplate(@ApiParam("数据名称") String tableName) {
         Model model = DbUtils.getModel(tableName);
-        generateService.generateController(model, "path", model.getName()+"Controller.java");
-        generateService.generateEntity(model, "path", model.getName()+".java");
-        generateService.generateMapper(model, "path", model.getName()+"Mapper.java");
-        generateService.generateMapperXml(model, "path", model.getName()+"Mapper.xml");
-        generateService.generateService(model, "path", model.getName()+"Service.java");
-        generateService.generateServiceImpl(model, "path", model.getName()+"ServiceImpl.java");
+        generateService.generateController(model, "path", model.getName() + "Controller.java");
+        generateService.generateEntity(model, "path", model.getName() + ".java");
+        generateService.generateMapper(model, "path", model.getName() + "Mapper.java");
+        generateService.generateMapperXml(model, "path", model.getName() + "Mapper.xml");
+        generateService.generateService(model, "path", model.getName() + "Service.java");
+        generateService.generateServiceImpl(model, "path", model.getName() + "ServiceImpl.java");
         return null;
     }
-
-
 }
