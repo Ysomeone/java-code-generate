@@ -28,6 +28,8 @@ public class Column {
      * 原始字段名
      */
     private String originalName;
-
+/**
+ *
+ */
 
 }
