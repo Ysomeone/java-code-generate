@@ -17,6 +17,8 @@ public class Model {
 
     private String tableName;
 
+    private String tableComment;
+
     private List<Column> columnList;
 
 }

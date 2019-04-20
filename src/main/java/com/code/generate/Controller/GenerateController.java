@@ -68,7 +68,7 @@ public class GenerateController {
     @PostMapping("/generateTemplate")
     @ResponseBody
     public String generateTemplate(@ApiParam("数据名称") String tableName) {
-        Model model = DbUtils.getModel(tableName);
+        Model model = DbUtils.getModel(tableName,null);
         generateService.generateController(model, "path", model.getName() + "Controller.java");
         generateService.generateEntity(model, "path", model.getName() + ".java");
         generateService.generateMapper(model, "path", model.getName() + "Mapper.java");

@@ -46,10 +46,12 @@ public class DbUtils {
 //    private static String driver;
 
 
-    public static Model getModel(String tableName) {
+    public static Model getModel(String tableName,Database database) {
         Model model = new Model();
         model.setTableName(tableName);
-        model.setColumnList(getColumns(tableName));
+        model.setPackageName("com.java");
+        model.setName("k");
+        model.setColumnList(getColumns(tableName,database));
         return model;
     }
 
@@ -129,14 +131,11 @@ public class DbUtils {
      * @param tableName 表名称
      * @return 字段的集合
      */
-    public static List<Column> getColumns(String tableName) {
+    public static List<Column> getColumns(String tableName,Database database) {
         List<Column> columnList = new ArrayList<>();
         String PK = "";
 
-        /**
-         * 待修改
-         */
-        Database database = new Database();
+
 
 
         Connection connection = DbUtils.getConnection(database);
@@ -167,6 +166,7 @@ public class DbUtils {
                 column.setComment(resultSet.getString("REMARKS"));
                 //获取字段类型
                 column.setType(TypeConvertUtils.mysqlTypeToJavaType(resultSet.getString("TYPE_NAME")));
+                column.setOriginalType(resultSet.getString("TYPE_NAME"));
                 columnList.add(column);
             }
         } catch (SQLException e) {

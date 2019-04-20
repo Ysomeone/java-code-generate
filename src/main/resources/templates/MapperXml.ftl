@@ -2,8 +2,8 @@
 <!DOCoriginalType mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${packageName}.mapper.${modelName}Mapper">
-    <resultMap id="BaseResultMap" originalType="${packageName}.entity.${modelName}">
+<mapper namespace="${packageName}.mapper.${name}Mapper">
+    <resultMap id="BaseResultMap" originalType="${packageName}.entity.${name}">
         <#list columnList as model>
         <#if model.isPrimaryKey?string("true","false")! ="true">
         	<id column="${model.originalName!}" property="${model.name!}"/>
@@ -25,36 +25,32 @@
     </sql>
     <sql id="where_column">
 			<#list columnList as column>
+
+             <#if column.originalType != 'DATETIME' >
                 <if test="${column.nameUp} != null ">
                     AND ${column.originalName} = ${r'#'}{${column.nameUp}}
                 </if>
+             </#if>
+
 	    <#if column.originalType == 'VARCHAR' ||  column.originalType == 'CHAR'>
 	     <if test="${column.nameUp}like != null ">
              AND ${column.originalName} like CONCAT('%',${r'#'}{${column.nameUp}like},'%')
          </if>
         </#if>
-	   <#if column.originalType == 'TIMESTAMP'>
-	    	<!-- 大于等于${column.name} -->
-		 <if test="filter_${column.nameUp}s != null">
-             AND date_format(${column.originalName},'%Y-%m-%d')<![CDATA[>=]]>${r'#'}{filter_${column.nameUp}s}
+
+	   <#if column.originalType == 'DATETIME'>
+       	 <if test="${column.nameUp} != null">
+             AND date_format(${column.originalName},'%Y-%m-%d') =DATE_FORMAT(${r'#'}{${column.nameUp}},'%Y-%m-%d')
          </if>
-		<!-- 小于等于${column.name} -->
-	     <if test="filter_${column.nameUp}e!= null">
-             AND date_format(${column.originalName},'%Y-%m-%d')<![CDATA[<=]]>${r'#'}{filter_${column.nameUp}e}
+		 <if test="${column.nameUp}s != null">
+             AND date_format(${column.originalName},'%Y-%m-%d') &gt;=DATE_FORMAT(${r'#'}{${column.nameUp}s},'%Y-%m-%d')
+         </if>
+	     <if test="${column.nameUp}e!= null">
+             AND date_format(${column.originalName},'%Y-%m-%d') &lt;= DATE_FORMAT(${r'#'}{${column.nameUp}e},'%Y-%m-%d')
          </if>
        </#if>
-	   <#if column.originalType == 'BIGINT' || column.originalType == 'INTEGER' || column.originalType == 'DECIMAL'  >
-	    	<!-- 大于等于${column.name} -->
-		<if test="${column.nameUp}s != null">
-            AND ${column.originalName}<![CDATA[>=]]>${r'#'}{${column.nameUp}s}
-        </if>
-		<!-- 小于等于${column.name} -->
-	    <if test="${column.nameUp}e!= null">
-            AND ${column.originalName}<![CDATA[<=]]>${r'#'}{${column.nameUp}e}
-        </if>
-       </#if>
-            </#list>
+       </#list>
+
+
     </sql>
-
-
 </mapper>

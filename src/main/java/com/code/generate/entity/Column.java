@@ -28,8 +28,9 @@ public class Column {
      * 原始字段名
      */
     private String originalName;
-/**
- *
- */
+    /**
+     *数据库表的字段类型
+     */
+    private String originalType;
 
 }
