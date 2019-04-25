@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>带摇晃特效的扁平风格登录注册表单界面</title>
-<link rel="stylesheet" type="text/css" href="css/login.css">
+<link rel="stylesheet" type="text/css" href="../static/css/login.css">
 </head>
 <body>
 <p class="center">登录用户名为：admin，密码为admin</p>
@@ -30,7 +30,7 @@
 </div>
 </div>
 
-<script src="js/jquery.min.js"></script>
+<script src="../static/js/jquery.min.js"></script>
 <script type="text/javascript">
 	function check_login()
 	{

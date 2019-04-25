@@ -5,9 +5,6 @@
 </head>
 <body>
 <h1>Hello  from resource freemark!</h1>
-<#list >
 
-
-</#list>
 </body>
 </html>
