@@ -54,7 +54,7 @@ public class GenerateController {
         database.setPort("3306");
         database.setPassword("333");
         database.setUsername("root");
-        List<Table> tableNameList = DbUtils.getTableNameList(database);
+        List<Table> tableNameList = DbUtils.getTableNameList(database,"");
         return tableNameList;
     }
 
@@ -65,7 +65,7 @@ public class GenerateController {
      * @return
      */
     @ApiOperation(value = "根据表名生成模板", notes = "根据表名生成模板")
-    @PostMapping("/generateTemplate")
+    @RequestMapping ("/generateTemplate")
     @ResponseBody
     public String generateTemplate(@ApiParam("数据名称") String tableName) {
         Model model = DbUtils.getModel(tableName,null);

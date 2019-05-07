@@ -4,6 +4,7 @@ import com.code.generate.entity.Column;
 import com.code.generate.entity.Database;
 import com.code.generate.entity.Model;
 import com.code.generate.entity.Table;
+import org.springframework.util.StringUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,12 +47,12 @@ public class DbUtils {
 //    private static String driver;
 
 
-    public static Model getModel(String tableName,Database database) {
+    public static Model getModel(String tableName, Database database) {
         Model model = new Model();
         model.setTableName(tableName);
         model.setPackageName("com.java");
         model.setName("k");
-        model.setColumnList(getColumns(tableName,database));
+        model.setColumnList(getColumns(tableName, database));
         return model;
     }
 
@@ -65,8 +66,8 @@ public class DbUtils {
         try {
             if (con == null) {
                 Class.forName(database.getDriver());
-                String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabaseName()+"?seUnicode=true&amp;characterEncoding=utf-8";
-                System.out.println("url:"+url);
+                String url = "jdbc:mysql://" + database.getIp() + ":" + database.getPort() + "/" + database.getDatabaseName() + "?seUnicode=true&amp;characterEncoding=utf-8";
+                System.out.println("url:" + url);
                 Properties info = new Properties();
                 info.put("user", database.getUsername());
                 info.put("password", database.getPassword());
@@ -103,17 +104,25 @@ public class DbUtils {
      * @return
      * @throws Exception
      */
-    public static List<Table> getTableNameList(Database database) throws Exception {
+    public static List<Table> getTableNameList(Database database, String tableName) throws Exception {
         List<Table> tableList = new ArrayList<>();
-        String sql = "select table_name,TABLE_COMMENT  from information_schema.tables where table_schema='" + database.getDatabaseName() + "' and table_type='base table';";
+
+        String sql;
+
+        if (!StringUtils.isEmpty(tableName)) {
+            sql = "select table_name,TABLE_COMMENT  from information_schema.tables where table_schema='" + database.getDatabaseName() + "' and table_type='base table' and table_name like concat('%','" + tableName + "','%') ;";
+        } else {
+            sql = "select table_name,TABLE_COMMENT  from information_schema.tables where table_schema='" + database.getDatabaseName() + "' and table_type='base table'";
+        }
+
         rs = getRs(database, sql);
         // 展开结果集数据库
         while (rs.next()) {
             Table table = new Table();
-            String tableName = rs.getString("table_name");
+            String tableName1 = rs.getString("table_name");
             String tableComment = rs.getString("table_comment");
             table.setTabelComment(tableComment);
-            table.setTableName(tableName);
+            table.setTableName(tableName1);
             tableList.add(table);
         }
         return tableList;
@@ -131,11 +140,9 @@ public class DbUtils {
      * @param tableName 表名称
      * @return 字段的集合
      */
-    public static List<Column> getColumns(String tableName,Database database) {
+    public static List<Column> getColumns(String tableName, Database database) {
         List<Column> columnList = new ArrayList<>();
         String PK = "";
-
-
 
 
         Connection connection = DbUtils.getConnection(database);
