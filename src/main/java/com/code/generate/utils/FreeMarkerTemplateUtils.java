@@ -21,7 +21,7 @@ public class FreeMarkerTemplateUtils {
     static {
         try {
             //这里比较重要，用来指定加载模板所在的路径
-            CONFIGURATION.setClassForTemplateLoading(FreeMarkerTemplateUtils.class, "/templates");
+            CONFIGURATION.setClassForTemplateLoading(FreeMarkerTemplateUtils.class, "/templates/gen-templates");
             CONFIGURATION.setDefaultEncoding("UTF-8");
             CONFIGURATION.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             CONFIGURATION.setCacheStorage(new freemarker.cache.MruCacheStorage(20, 250));

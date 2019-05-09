@@ -16,15 +16,7 @@ public class FreemarkerAction {
 
 
     @RequestMapping(value = "/toDemo")
-    public String toDemo(Model mv) throws Exception {
-//        Database database = new Database();
-//        database.setDatabaseName("mlf");
-//        database.setDriver("com.mysql.jdbc.Driver");
-//        database.setPort("3306");
-//
-//        database.setUsername("root");
-//        List<Table> tableNameList = DbUtils.getTableNameList(database);
-//        mv.addAttribute("tableNameList", tableNameList);
+    public String toDemo() {
         return "index";
     }
 

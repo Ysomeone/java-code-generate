@@ -121,7 +121,7 @@ public class DbUtils {
             Table table = new Table();
             String tableName1 = rs.getString("table_name");
             String tableComment = rs.getString("table_comment");
-            table.setTabelComment(tableComment);
+            table.setTableComment(tableComment);
             table.setTableName(tableName1);
             tableList.add(table);
         }

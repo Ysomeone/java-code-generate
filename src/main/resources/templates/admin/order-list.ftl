@@ -74,8 +74,7 @@
        </div>
    </td>
                 <td>    ${table.tableName}</td>
-                <td>    ${table.tabelComment}</td>
-
+                <td>    ${table.tableComment??}</td>
                 <td class="td-manage">
                 <a title="查看" onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>

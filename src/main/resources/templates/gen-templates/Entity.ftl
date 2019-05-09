@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-* 描述： ${tableComment} 实体类
+* 描述： ${tabelComment} 实体类
 * @author
 * @date
 */
