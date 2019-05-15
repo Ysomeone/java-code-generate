@@ -60,6 +60,7 @@ public class TypeConvertUtils {
                 break;
             case "TINYINT":
                 javaType = "Integer";
+                break;
             default:
                 javaType = null;
                 break;

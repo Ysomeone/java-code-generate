@@ -4,13 +4,9 @@ import com.code.generate.entity.Model;
 
 import java.io.File;
 
-import static com.code.generate.utils.DbUtils.getColumns;
-
 public class GenerateUtils {
 
-
-
-
+    
     public static void generateFile(Model model, String path, String fileName, String templateName) {
         try {
             File pat = new File(path);

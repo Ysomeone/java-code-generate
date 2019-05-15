@@ -17,34 +17,11 @@ public class DbUtils {
      * 数据库连接
      */
     private static Connection con;
-    /**
-     *
-     */
-    private static PreparedStatement pstmt;
+
     /**
      * 返回的结果集
      */
     private static ResultSet rs;
-//    /**
-//     * 连接的url
-//     */
-//    @Value("${spring.datasource.url}")
-//    private static String url;
-//    /**
-//     * 数据库账户
-//     */
-//    @Value("${spring.datasource.username}")
-//    private static String username;
-//    /**
-//     * 数据库密码
-//     */
-//    @Value("${spring.datasource.password}")
-//    private static String password;
-//    /**
-//     * Mysql驱动类
-//     */
-//    @Value("${spring.datasource.driver}")
-//    private static String driver;
 
 
     public static Model getModel(String tableName, Database database) {
@@ -77,28 +54,6 @@ public class DbUtils {
         }
         return con;
     }
-
-
-//    /**
-//     * 获取rs
-//     *
-//     * @param sql
-//     * @return
-//     */
-//    public static ResultSet getResultSet(String sql) {
-//        con = getConnection();
-//        try {
-//            pstmt = con.prepareStatement(sql);
-//            rs = pstmt.executeQuery();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            // closeCon();
-//        }
-//        return rs;
-//    }
-
-
     /**
      * @param database
      * @return
@@ -106,22 +61,22 @@ public class DbUtils {
      */
     public static List<Table> getTableNameList(Database database, String tableName) throws Exception {
         List<Table> tableList = new ArrayList<>();
-
         String sql;
-
         if (!StringUtils.isEmpty(tableName)) {
             sql = "select table_name,TABLE_COMMENT  from information_schema.tables where table_schema='" + database.getDatabaseName() + "' and table_type='base table' and table_name like concat('%','" + tableName + "','%') ;";
         } else {
             sql = "select table_name,TABLE_COMMENT  from information_schema.tables where table_schema='" + database.getDatabaseName() + "' and table_type='base table'";
         }
-
         rs = getRs(database, sql);
-        // 展开结果集数据库
         while (rs.next()) {
             Table table = new Table();
             String tableName1 = rs.getString("table_name");
             String tableComment = rs.getString("table_comment");
-            table.setTableComment(tableComment);
+            if(StringUtils.isEmpty(tableComment)){
+                table.setTableComment("");
+            }else{
+                table.setTableComment(tableComment);
+            }
             table.setTableName(tableName1);
             tableList.add(table);
         }
@@ -143,35 +98,26 @@ public class DbUtils {
     public static List<Column> getColumns(String tableName, Database database) {
         List<Column> columnList = new ArrayList<>();
         String PK = "";
-
-
         Connection connection = DbUtils.getConnection(database);
         DatabaseMetaData databaseMetaData;
         try {
             databaseMetaData = connection.getMetaData();
             ResultSet pkRSet = databaseMetaData.getPrimaryKeys(null, null, tableName);
             ResultSet resultSet = databaseMetaData.getColumns(null, "%", tableName, "%");
-            //获取主键
             while (pkRSet.next()) {
                 PK = (String) pkRSet.getObject(4);
             }
             while (resultSet.next()) {
                 Column column = new Column();
-                //id字段略过
                 if (resultSet.getString("COLUMN_NAME").equalsIgnoreCase(PK)) {
                     column.setIsPrimaryKey(true);
                 } else {
                     column.setIsPrimaryKey(false);
                 }
-                //获取数据库原始字段名称
                 column.setOriginalName(resultSet.getString("COLUMN_NAME"));
-                //获取字段名称
                 column.setName(StrUtils.replaceUnderLine(resultSet.getString("COLUMN_NAME")));
-                //转换字段名称，如 sys_name 变成 SysName
                 column.setNameUp(StrUtils.toUpperCase(resultSet.getString("COLUMN_NAME")));
-                //字段在数据库的注释
                 column.setComment(resultSet.getString("REMARKS"));
-                //获取字段类型
                 column.setType(TypeConvertUtils.mysqlTypeToJavaType(resultSet.getString("TYPE_NAME")));
                 column.setOriginalType(resultSet.getString("TYPE_NAME"));
                 columnList.add(column);
