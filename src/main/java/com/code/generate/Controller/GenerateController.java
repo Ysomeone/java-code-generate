@@ -6,6 +6,7 @@ import com.code.generate.entity.Model;
 import com.code.generate.entity.Table;
 import com.code.generate.service.GenerateService;
 import com.code.generate.utils.DbUtils;
+import com.code.generate.utils.GenerateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,9 +19,6 @@ import java.util.List;
 @RequestMapping("/generate")
 @Api(tags = "模板生成")
 public class GenerateController {
-
-    @Autowired
-    private GenerateService generateService;
 
     /**
      * @param driver
@@ -52,7 +50,7 @@ public class GenerateController {
         database.setDatabaseName("mlf");
         database.setDriver("com.mysql.jdbc.Driver");
         database.setPort("3306");
-        database.setPassword("333");
+        database.setPassword("");
         database.setUsername("root");
         List<Table> tableNameList = DbUtils.getTableNameList(database,"");
         return tableNameList;
@@ -67,14 +65,14 @@ public class GenerateController {
     @ApiOperation(value = "根据表名生成模板", notes = "根据表名生成模板")
     @RequestMapping ("/generateTemplate")
     @ResponseBody
-    public String generateTemplate(@ApiParam("数据名称") String tableName) {
-        Model model = DbUtils.getModel(tableName,null);
-        generateService.generateController(model, "path", model.getName() + "Controller.java");
-        generateService.generateEntity(model, "path", model.getName() + ".java");
-        generateService.generateMapper(model, "path", model.getName() + "Mapper.java");
-        generateService.generateMapperXml(model, "path", model.getName() + "Mapper.xml");
-        generateService.generateService(model, "path", model.getName() + "Service.java");
-        generateService.generateServiceImpl(model, "path", model.getName() + "ServiceImpl.java");
-        return null;
+    public String generateTemplate(@ApiParam("数据名称") String tableName, Database database) {
+        Model model = DbUtils.getModel(tableName,database);
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.xml",  "MapperXml.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ ".java", "Entity.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.java", "Mapper.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Service.java", "Service.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "ServiceImpl.java", "ServiceImpl.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Controller.java", "Controller.ftl");
+        return "D:/gg/";
     }
 }

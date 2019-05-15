@@ -6,7 +6,7 @@ import java.io.File;
 
 public class GenerateUtils {
 
-    
+
     public static void generateFile(Model model, String path, String fileName, String templateName) {
         try {
             File pat = new File(path);

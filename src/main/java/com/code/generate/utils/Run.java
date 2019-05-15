@@ -15,11 +15,11 @@ public class Run {
         model.setPackageName("com.java");
         model.setName("ConfNews");
         model.setTableComment("类解释");
-        String templateName = "MapperXml.ftl";
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.xml", templateName);
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ ".java", "Entity.ftl");
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.java", "Mapper.ftl");
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Service.java", "Service.ftl");
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "ServiceImpl.java", "ServiceImpl.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.xml",  "MapperXml.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/com/java/Entity/",model.getName()+ ".java", "Entity.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/com/java/Mapper/",model.getName()+ "Mapper.java", "Mapper.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/com/java/Service/",model.getName()+ "Service.java", "Service.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/com/java/ServiceImpl/",model.getName()+ "ServiceImpl.java", "ServiceImpl.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/com/java/Controller/",model.getName()+ "Controller.java", "Controller.ftl");
     }
 }
