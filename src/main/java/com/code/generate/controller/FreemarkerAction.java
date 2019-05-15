@@ -1,4 +1,4 @@
-package com.code.generate.Controller;
+package com.code.generate.controller;
 
 import com.code.generate.entity.Database;
 import com.code.generate.entity.Table;

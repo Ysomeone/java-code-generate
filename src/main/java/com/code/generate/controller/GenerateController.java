@@ -1,16 +1,14 @@
-package com.code.generate.Controller;
+package com.code.generate.controller;
 
 
 import com.code.generate.entity.Database;
 import com.code.generate.entity.Model;
 import com.code.generate.entity.Table;
-import com.code.generate.service.GenerateService;
 import com.code.generate.utils.DbUtils;
 import com.code.generate.utils.GenerateUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,12 +65,12 @@ public class GenerateController {
     @ResponseBody
     public String generateTemplate(@ApiParam("数据名称") String tableName, Database database) {
         Model model = DbUtils.getModel(tableName,database);
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.xml",  "MapperXml.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "mapper.xml",  "MapperXml.ftl");
         GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ ".java", "Entity.ftl");
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Mapper.java", "Mapper.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "mapper.java", "mapper.ftl");
         GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Service.java", "Service.ftl");
         GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "ServiceImpl.java", "ServiceImpl.ftl");
-        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "Controller.java", "Controller.ftl");
+        GenerateUtils.generateFile(model, "D:/gg/",model.getName()+ "controller.java", "controller.ftl");
         return "D:/gg/";
     }
 }

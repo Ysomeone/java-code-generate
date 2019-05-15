@@ -1,4 +1,4 @@
-package com.code.generate.Mapper;
+package com.code.generate.mapper;
 
 import com.code.generate.entity.Database;
 import tk.mybatis.mapper.common.Mapper;
