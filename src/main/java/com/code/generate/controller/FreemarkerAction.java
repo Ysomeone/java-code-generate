@@ -25,7 +25,7 @@ public class FreemarkerAction {
         Database database = new Database();
         database.setDatabaseName("mlf");
         database.setDriver("com.mysql.jdbc.Driver");
-        database.setPort("3306");
+        database.setPort("33061");
         database.setPassword("");
         database.setUsername("root");
         List<Table> tableNameList = DbUtils.getTableNameList(database, tableName);
